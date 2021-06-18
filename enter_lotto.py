@@ -2,16 +2,16 @@
 import random
 from tkinter import *
 from tkinter import messagebox
+
 window = Tk()
 window.title("lottery machine Amanda Makara")
-window.geometry("593x500")
+window.geometry("593x550")
 window.config(bg="yellow")
 
 canvas = Canvas(window, width=593, height=176)
 canvas.place(x=0, y=0)
 img = PhotoImage(file="lottoery.png")
 canvas.create_image(0, 0, anchor=NW, image=img)
-
 
 
 # initialising numbers
@@ -32,15 +32,18 @@ box1.place(x=20, y=250)
 box2 = Spinbox(window, from_=0, to=49, width=2, textvariable=number2, font=("bold", 20))
 box2.place(x=100, y=250)
 box3 = Spinbox(window, from_=0, to=49, width=2, textvariable=number3,font=("bold", 20))
-box3.place(x=180,y=250)
+box3.place(x=180, y=250)
 box4 = Spinbox(window, from_=0, to=49, width=2, textvariable=number4, font=("bold", 20))
 box4.place(x=250, y=250)
 box5 = Spinbox(window, from_=0, to=49, width=2, textvariable=number5, font=("bold", 20))
 box5.place(x=330, y=250)
 box6 = Spinbox(window, from_=0, to=49, width=2, textvariable=number6, font=("bold", 20))
 box6.place(x=400, y=250)
-answer = Entry(window, state="readonly")
-answer.place(x=100, y=300, width=300, height=100)
+# answer = Entry(window, state="readonly")
+
+answer = Text(window, height=2, width=30)
+
+answer.place(x=135, y=300, width=330, height=120)
 
 # defining
 
@@ -57,18 +60,12 @@ def draws():
     draw_list.sort()
     print(draw_list)
 
-
-    actual_lotto=sorted(random.sample(range(1, 49), 6))
+    actual_lotto = sorted(random.sample(range(1, 49), 6))
     print(actual_lotto)
 
     if any(draw_list) < 0 or any(draw_list) > 50:
         messagebox.showinfo("sorry", "invalid input", icon='warning')
-        number1.delete(0, END)
-        number2.delete(0, END)
-        number3.delete(0, END)
-        number4.delete(0, END)
-        number5.delete(0, END)
-        number6.delete(0, END)
+
     else:
         messagebox.showinfo("great!", "let's play!")
         if len(actual_lotto) == len(draw_list):
@@ -81,7 +78,7 @@ def draws():
                           "You got yourself 10,000 000.00 \n today lotto numbers are " + str(actual_lotto) + \
                           "\n and your numbers are " + str(draw_list)
                 answer.config(state="normal")
-                answer.insert(0, message)
+                answer.insert(END, message)
                 answer.config(state="readonly")
             elif len(identical) == 5:
                 print("5")
@@ -90,16 +87,15 @@ def draws():
                         "You got yourself 8,584.00 \n today lotto numbers are " +\
                         str(actual_lotto) + "\n and your numbers are " + str(draw_list)
                 answer.config(state="normal")
-                answer.insert(0, message)
+                answer.insert(END, message)
                 answer.config(state="readonly")
 
             elif len(identical) == 4:
                 print("4")
 
-                message = "you got 4 correct numbers. " + " \n You got yourself 2,384.00 \n today lotto numbers are " + \
-                          str(actual_lotto) + "\n and your numbers are " + str(draw_list)
+                message = f'you got 4 correct numbers. \n You got yourself 2,384.00 \n today lotto numbers are \n{str(actual_lotto)} \n and your numbers are {str(draw_list)}'
                 answer.config(state="normal")
-                answer.insert(0, message)
+                answer.insert(END, message)
                 answer.config(state="readonly")
 
             elif len(identical) == 3:
@@ -108,17 +104,16 @@ def draws():
                 message = "you got 3 correct numbers. " + "\n You got yourself 100.50 \n today lotto numbers are " +\
                           str(actual_lotto) + "\n and your numbers are " + str(draw_list)
                 answer.config(state="normal")
-                answer.insert(0, message)
+                answer.insert(END, message)
                 answer.config(state="readonly")
 
             elif len(identical) == 2:
                 print("2")
-                message = "you got 2 correct numbers." + "\n" + "\n" + "You got yourself 20.00 \n Today lotto numbers are " + \
-                          str(actual_lotto)+"\n and your numbers are " + str(draw_list)
+                message = f'you got 2 correct numbers.\n You got yourself 20.00 \n Today lotto numbers are \n {str(actual_lotto)}\n and your numbers are {str(draw_list)}'
                 answer.config(state="normal")
-                answer.insert(0, message)
+                #  answer.insert(0, message)
+                answer.insert(END, message)
                 answer.config(state="readonly")
-
 
             elif len(identical) == 1:
                 print("1")
@@ -131,8 +126,9 @@ def draws():
                                     str(actual_lotto) + "\n and your numbers are " + str(draw_list))
 
 
+
 def close():
-    mgbox=messagebox.askquestion("exit application", "are you sure you want to exit", icon="warning")
+    mgbox = messagebox.askquestion("exit application", "are you sure you want to exit", icon="warning")
 
     if mgbox == "yes":
         window.destroy()
@@ -141,23 +137,36 @@ def close():
 
 
 def claimbtn():
-    messagebox.showinfo("thank you ")
+    messagebox.showinfo("thank you", "you can claim your prize")
     window.destroy()
     import claim
 
 
+
+number1 = IntVar(window)
+number2 = IntVar(window)
+number1 = IntVar(window)
+number1 = IntVar(window)
+number1 = IntVar(window)
+number1 = IntVar(window)
+def clearbtn():
+    number1.set(0)
+    number1.set(0)
+
+
+
 # buttons
-reset_btn = Button(window, text='clear', bg='#346ab3',pady=10, width=10)
-reset_btn.place(x=360, y=400)
+reset_btn = Button(window, text='clear', bg='#346ab3', pady=10, width=10, command=clearbtn)
+reset_btn.place(x=360, y=440)
 
 exit_btn = Button(window, text='Exit', bg='blue', command=close, pady=10, width=10)
-exit_btn.place(x=360, y=450)
+exit_btn.place(x=360, y=490)
 
 cal_btn = Button(window, text='Play!', bg='red', pady=10, width=10, command=draws)
-cal_btn.place(x=96, y=400)
+cal_btn.place(x=96, y=440)
 
 claimon = Button(window, text="Claim", bg="green", pady=10, width=10, command=claimbtn)
-claimon.place(x=96, y=450)
+claimon.place(x=96, y=490)
 
 
 
