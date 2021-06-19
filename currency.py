@@ -9,7 +9,7 @@ from tkinter import ttk
 
 window = Tk()
 window.title("lottery machine Amanda Makara")
-window.geometry("593x500")
+window.geometry("593x300")
 window.config(bg="yellow")
 
 # API

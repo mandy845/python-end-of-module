@@ -68,6 +68,7 @@ def draws():
 
     else:
         messagebox.showinfo("great!", "let's play!")
+
         if len(actual_lotto) == len(draw_list):
             identical = set(actual_lotto).intersection(set(draw_list))
             print(len(identical))
@@ -116,7 +117,6 @@ def draws():
                 answer.config(state="readonly")
 
             elif len(identical) == 1:
-                print("1")
                 messagebox.showinfo("Sorry", "you got 1 correct number. " +
                                     " you did not get a prize keep trying \n today lotto numbers are " +
                                     str(actual_lotto) + "\n and your numbers are " + str(draw_list))
@@ -124,7 +124,6 @@ def draws():
                 messagebox.showinfo("sorry", "you didn't get  numbers correct. " +
                                     "You did not have a prize \n " "today lotto numbers are " +
                                     str(actual_lotto) + "\n and your numbers are " + str(draw_list))
-
 
 
 def close():
@@ -137,10 +136,14 @@ def close():
 
 
 def claimbtn():
-    messagebox.showinfo("thank you", "you can claim your prize")
-    window.destroy()
-    import claim
-
+    msg = messagebox.askquestion("", "Do you want to convert your prize")
+    if msg == "yes":
+        window.destroy()
+        import currency
+    else:
+        messagebox.showinfo("", "you can claim")
+        window.destroy()
+        import claim
 
 
 number1 = IntVar(window)
@@ -149,13 +152,14 @@ number1 = IntVar(window)
 number1 = IntVar(window)
 number1 = IntVar(window)
 number1 = IntVar(window)
+
+
 def clearbtn():
     number1.set(0)
     number1.set(0)
-
-
-
 # buttons
+
+
 reset_btn = Button(window, text='clear', bg='#346ab3', pady=10, width=10, command=clearbtn)
 reset_btn.place(x=360, y=440)
 
@@ -167,7 +171,6 @@ cal_btn.place(x=96, y=440)
 
 claimon = Button(window, text="Claim", bg="green", pady=10, width=10, command=claimbtn)
 claimon.place(x=96, y=490)
-
 
 
 window.mainloop()

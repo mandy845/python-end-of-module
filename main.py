@@ -4,6 +4,9 @@ from tkinter import *
 from tkinter import messagebox
 import datetime
 from validate_email import  validate_email
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from playsound import playsound
 
 
@@ -60,6 +63,28 @@ def personvalid():
     textFile.write("\n")
     textFile.write("ID number:" + ID)
 
+def verifyemail():
+    try:
+        sender = "amandamakara7@gmail.com"
+        reciever = entrypass.get()
+        password = "@manda20W"
+        Subject= "lotto game"
+        msg = MIMEMultipart()
+        msg['From'] = sender
+        msg["To"] = reciever
+        body = "Thank you for using our Lotto Application"
+        msg.attach(MIMEText(body, "plain"))
+        text = msg.as_string()
+        s = smtplib.SMTP("smtp.gmail.com", 587)
+        s.starttls()
+        s.login(sender, reciever)
+        s.quit()
+    except ValueError:
+        messagebox.showwarning("", "Error")
+
+
+
+
 
 # labels
 
@@ -90,7 +115,7 @@ reset_btn.place(x=430, y=370)
 exit_btn = Button(window, text='Exit', bg='blue', command=close, pady=10, width=10)
 exit_btn.place(x=430, y=420)
 
-cal_btn = Button(window, text='sign in', bg='red', pady=10, width=10, command=login)
+cal_btn = Button(window, text='sign in', bg='red', pady=10, width=10, command= login)
 cal_btn.place(x=120, y=370)
 
 
