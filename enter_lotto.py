@@ -1,7 +1,9 @@
 # Amanda Makara
+import datetime
 import random
 from tkinter import *
 from tkinter import messagebox
+from playsound import playsound
 
 window = Tk()
 window.title("lottery machine Amanda Makara")
@@ -81,8 +83,12 @@ def draws():
                 answer.config(state="normal")
                 answer.insert(END, message)
                 answer.config(state="readonly")
+                prize = 10000000
+                playsound("lotto_winner_nz.mp3")
             elif len(identical) == 5:
                 print("5")
+
+
 
                 message="you got 5 correct numbers. \n" + \
                         "You got yourself 8,584.00 \n today lotto numbers are " +\
@@ -90,6 +96,8 @@ def draws():
                 answer.config(state="normal")
                 answer.insert(END, message)
                 answer.config(state="readonly")
+                prize = 8584.00
+                playsound("lotto_winner_nz.mp3")
 
             elif len(identical) == 4:
                 print("4")
@@ -98,6 +106,8 @@ def draws():
                 answer.config(state="normal")
                 answer.insert(END, message)
                 answer.config(state="readonly")
+                prize = 2384.00
+                playsound("lotto_winner_nz.mp3")
 
             elif len(identical) == 3:
                 print("3")
@@ -107,6 +117,8 @@ def draws():
                 answer.config(state="normal")
                 answer.insert(END, message)
                 answer.config(state="readonly")
+                prize = 100.50
+                playsound("lotto_winner_nz.mp3")
 
             elif len(identical) == 2:
                 print("2")
@@ -115,15 +127,34 @@ def draws():
                 #  answer.insert(0, message)
                 answer.insert(END, message)
                 answer.config(state="readonly")
+                prize = 20.00
+                playsound("looser.mp3")
 
             elif len(identical) == 1:
                 messagebox.showinfo("Sorry", "you got 1 correct number. " +
                                     " you did not get a prize keep trying \n today lotto numbers are " +
                                     str(actual_lotto) + "\n and your numbers are " + str(draw_list))
+                prize = 0
+                playsound("looser.mp3")
             else:
                 messagebox.showinfo("sorry", "you didn't get  numbers correct. " +
                                     "You did not have a prize \n " "today lotto numbers are " +
                                     str(actual_lotto) + "\n and your numbers are " + str(draw_list))
+                prize = 0
+                playsound("looser.mp3")
+
+            lotto = actual_lotto
+            played= draw_list
+            price = prize
+            currentdate=datetime.date.today()
+            textFile = open("competer.txt", "a+")
+            textFile.write("winning numbers:" + lotto)
+            textFile.write("\n")
+            textFile.write("played:" + played)
+            textFile.write("\n")
+            textFile.write("prices:" + price)
+            textFile.write("\n")
+            textFile.write("date played:" + currentdate)
 
 
 def close():

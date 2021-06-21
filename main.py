@@ -40,16 +40,37 @@ def login():
     age = current_year - year_of_birth
     validEmail = validate_email(entrypass.get())
     print(validEmail)
-    if age > 18 and validEmail== True:
+    if age > 18 and validEmail==True:
         messagebox.showinfo('you qualify!', 'get ready to play!')
         personvalid()
+        playsound("access_granted.mp3")
+
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        sender = 'amandaluckywinner2@gmail.com'
+        receiver = entrypass.get()
+        password = "@mandy20"
+        # start TLS for security
+        s.starttls()
+        # Authentication
+        s.login(sender, password)
+        # message to be sent
+        message = "Thank you for using our app\n"
+        message = message + "You can continue to play and good luck"
+        # sending the mail
+        s.sendmail(sender, receiver, message)
+        # terminating the session
+        s.quit()
+
         window.destroy()
         import enter_lotto
-        #enter_lotto.verify()
+        # enter_lotto.verify()
     elif age < 18:
         messagebox.showinfo('sorry', ' you are under age!')
     else:
         messagebox.showinfo("invalid", "input correct email")
+        playsound("access_denied.mp3")
+
+
 
 def personvalid():
     person = userentry.get()
@@ -63,26 +84,10 @@ def personvalid():
     textFile.write("\n")
     textFile.write("ID number:" + ID)
 
-def verifyemail():
-    try:
-        sender = "amandamakara7@gmail.com"
-        reciever = entrypass.get()
-        password = "@manda20W"
-        Subject= "lotto game"
-        msg = MIMEMultipart()
-        msg['From'] = sender
-        msg["To"] = reciever
-        body = "Thank you for using our Lotto Application"
-        msg.attach(MIMEText(body, "plain"))
-        text = msg.as_string()
-        s = smtplib.SMTP("smtp.gmail.com", 587)
-        s.starttls()
-        s.login(sender, reciever)
-        s.quit()
-    except ValueError:
-        messagebox.showwarning("", "Error")
-
-
+def clear():
+    entrypass.delete(0, 'end')
+    userentry.delete(0, 'end')
+    identry.delete(0, 'end')
 
 
 
@@ -109,7 +114,7 @@ identry.place(x=330, y=320)
 
 # buttons
 
-reset_btn = Button(window, text='clear', bg='#346ab3', pady=10, width=10)
+reset_btn = Button(window, text='clear', bg='#346ab3', pady=10, width=10, command=clear)
 reset_btn.place(x=430, y=370)
 
 exit_btn = Button(window, text='Exit', bg='blue', command=close, pady=10, width=10)
